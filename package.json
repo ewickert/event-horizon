@@ -1,0 +1,14 @@
+{
+  "name": "event-horizon",
+  "version": "1.0.0",
+  "description": "Phaser based HTML5 game similar to asteroids.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Wickert",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^1.7.5"
+  }
+}
