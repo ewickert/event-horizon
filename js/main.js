@@ -33,9 +33,15 @@ var PhaserGame;
         }
         Boot.prototype.preload = function () {
             this.load.image('i_background', 'assets/background.png');
+            this.load.image('i_logo', 'assets/title.png');
+            this.load.image('i_prompt', 'assets/prompt.png');
             this.load.image('s_player', 'assets/player_ship.png');
             this.load.spritesheet('ss_blackhole', 'assets/black_hole.png', 31, 31, 4);
             this.load.audio('sfx_rocket', 'assets/sfx_rocket.mp3');
+            this.load.image('txt_ship', 'assets/txt_ship.png');
+            this.load.image('txt_black_hole', 'assets/txt_black_hole.png');
+            this.load.image('txt_extra_life', 'assets/txt_extra_life.png');
+            this.load.image('txt_meteor', 'assets/txt_meteor.png');
         };
         Boot.prototype.create = function () {
             this.game.state.start('Menu', true, false);
@@ -53,6 +59,15 @@ var PhaserGame;
         }
         Menu.prototype.create = function () {
             this.background = this.add.sprite(0, 0, 'i_background');
+            this.logo = this.add.sprite(36, 20, 'i_logo');
+            this.play_prompt = this.add.sprite(64, 554, 'i_prompt');
+            this.init_key();
+        };
+        Menu.prototype.init_key = function () {
+            this.add.sprite(328, 300, 'txt_ship');
+            this.add.sprite(328, 321, 'txt_extra_life');
+            this.add.sprite(328, 342, 'txt_black_hole');
+            this.add.sprite(328, 363, 'txt_meteor');
         };
         return Menu;
     })(Phaser.State);
