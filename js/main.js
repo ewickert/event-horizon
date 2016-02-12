@@ -13,6 +13,7 @@ var PhaserGame;
             // Add states here.
             this.state.add('Boot', PhaserGame.Boot, false);
             this.state.add('Menu', PhaserGame.Menu, false);
+            this.state.add('Play', PhaserGame.Play, false);
             // this.state.start('Example');
             this.state.start('Boot');
         }
@@ -37,6 +38,7 @@ var PhaserGame;
             this.load.image('i_prompt', 'assets/prompt.png');
             this.load.image('s_player', 'assets/player_ship.png');
             this.load.spritesheet('ss_blackhole', 'assets/black_hole.png', 31, 31, 4);
+            this.load.spritesheet('ss_exlife', 'assets/extra_life.png', 31, 31, 4);
             this.load.audio('sfx_rocket', 'assets/sfx_rocket.mp3');
             this.load.image('txt_ship', 'assets/txt_ship.png');
             this.load.image('txt_black_hole', 'assets/txt_black_hole.png');
@@ -63,13 +65,76 @@ var PhaserGame;
             this.play_prompt = this.add.sprite(64, 554, 'i_prompt');
             this.init_key();
         };
+        Menu.prototype.update = function () {
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+                this.start_game();
+            }
+        };
         Menu.prototype.init_key = function () {
-            this.add.sprite(328, 300, 'txt_ship');
-            this.add.sprite(328, 321, 'txt_extra_life');
-            this.add.sprite(328, 342, 'txt_black_hole');
-            this.add.sprite(328, 363, 'txt_meteor');
+            this.add.sprite(328, 305, 'txt_ship');
+            this.add.sprite(286, 287, 's_player');
+            this.add.sprite(328, 340, 'txt_extra_life');
+            var el = this.add.sprite(286, 331, 'ss_exlife');
+            el.animations.add('pulse');
+            el.animations.play('pulse', 10, true);
+            this.add.sprite(328, 377, 'txt_black_hole');
+            var bh = this.add.sprite(286, 367, 'ss_blackhole');
+            bh.animations.add('pulse');
+            bh.animations.play('pulse', 10, true);
+            this.add.sprite(328, 401, 'txt_meteor');
+        };
+        Menu.prototype.start_game = function () {
+            this.game.state.start('Play', true, false);
         };
         return Menu;
     })(Phaser.State);
     PhaserGame.Menu = Menu;
+})(PhaserGame || (PhaserGame = {}));
+var PhaserGame;
+(function (PhaserGame) {
+    var Play = (function (_super) {
+        __extends(Play, _super);
+        function Play() {
+            _super.apply(this, arguments);
+        }
+        Play.prototype.create = function () {
+            this.background = this.add.sprite(0, 0, 'i_background');
+            this.player = new PhaserGame.Player(this.game, this.game.world.centerX, this.game.world.centerY);
+        };
+        return Play;
+    })(Phaser.State);
+    PhaserGame.Play = Play;
+})(PhaserGame || (PhaserGame = {}));
+var PhaserGame;
+(function (PhaserGame) {
+    var Player = (function (_super) {
+        __extends(Player, _super);
+        function Player(game, x, y) {
+            _super.call(this, game, x, y, 's_player', 0);
+            this.anchor.setTo(0.5, 0.5);
+            game.add.existing(this);
+            game.physics.enable(this, Phaser.Physics.ARCADE);
+            this.body.collideWorldBounds = true;
+        }
+        Player.prototype.update = function () {
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+                this.body.angularVelocity = 200;
+            }
+            else if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+                this.body.angularVelocity = -200;
+            }
+            else {
+                this.body.angularVelocity = 0;
+            }
+            if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+                this.game.physics.arcade.velocityFromAngle(this.angle - 90, 300, this.body.velocity);
+            }
+            else {
+                this.body.velocity.x = 0;
+                this.body.velocity.y = 0;
+            }
+        };
+        return Player;
+    })(Phaser.Sprite);
+    PhaserGame.Player = Player;
 })(PhaserGame || (PhaserGame = {}));

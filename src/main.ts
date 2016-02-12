@@ -6,6 +6,7 @@ module PhaserGame{
 			// Add states here.
 			this.state.add('Boot', Boot, false);
 			this.state.add('Menu', Menu, false);
+			this.state.add('Play', Play, false);
 			// this.state.start('Example');
 			this.state.start('Boot');
 		}
