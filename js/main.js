@@ -153,6 +153,9 @@ var PhaserGame;
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
                 this.game.physics.arcade.velocityFromAngle(this.angle - 90, 300, this.body.velocity);
             }
+            else if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+                this.game.physics.arcade.velocityFromAngle(this.angle - 90, -150, this.body.velocity);
+            }
             else {
                 this.body.velocity.x = 0;
                 this.body.velocity.y = 0;
