@@ -35,6 +35,9 @@ module PhaserGame{
 					if (item.lifespan == this.tick) item.destroy();
 					var grav = 5000/(this.game.physics.arcade.distanceBetween(item, this.player) + 1) * 150;
 					this.game.physics.arcade.accelerateToObject(this.player, item, grav);
+					this.game.physics.arcade.collide(item, this.player, () =>{
+						this.game.state.start('Menu', true, false);
+					});
 				}, this);
 		}
 	}

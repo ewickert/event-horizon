@@ -123,6 +123,9 @@ var PhaserGame;
                     item.destroy();
                 var grav = 5000 / (_this.game.physics.arcade.distanceBetween(item, _this.player) + 1) * 150;
                 _this.game.physics.arcade.accelerateToObject(_this.player, item, grav);
+                _this.game.physics.arcade.collide(item, _this.player, function () {
+                    _this.game.state.start('Menu', true, false);
+                });
             }, this);
         };
         return Play;
