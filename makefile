@@ -4,7 +4,7 @@ phaser_type_dir = node_modules/phaser/typescript
 .PHONY: typings
 
 all: src/main.ts
-	$(tsc) src/main.ts src/boot.ts src/menu.ts src/play.ts src/player.ts --out js/main.js
+	$(tsc) src/main.ts src/boot.ts src/menu.ts src/play.ts src/player.ts src/blackhole.ts --out js/main.js
 
 typings: 
 	$(info SHELL = $(SHELL))

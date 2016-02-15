@@ -98,8 +98,32 @@ var PhaserGame;
             _super.apply(this, arguments);
         }
         Play.prototype.create = function () {
+            var _this = this;
             this.background = this.add.sprite(0, 0, 'i_background');
             this.player = new PhaserGame.Player(this.game, this.game.world.centerX, this.game.world.centerY);
+            this.scoreboard = this.game.add.text(10, 10, 'Time: 0', { fontSize: '16px', fill: '#FFFFFF' });
+            this.scoreboard.font = "Lucida Console";
+            this.grp_blackhole = this.game.add.group();
+            this.timer = this.game.time.create(false);
+            this.timer.loop(1000, function () { _this.scoreboard.text = 'Score: ' + Math.round(_this.timer.seconds); }, this);
+            this.timer.start();
+            this.tick = 0;
+        };
+        Play.prototype.update = function () {
+            var _this = this;
+            this.tick++;
+            if (this.tick % 150 == 0) {
+                var x = (Math.random() * 1000) % 800;
+                var y = (Math.random() * 1000) % 600;
+                var span = (Math.random() * 10000) + this.tick;
+                this.grp_blackhole.add(new PhaserGame.Blackhole(this.game, x, y, span));
+            }
+            this.grp_blackhole.forEach(function (item) {
+                if (item.lifespan == _this.tick)
+                    item.destroy();
+                var grav = 5000 / (_this.game.physics.arcade.distanceBetween(item, _this.player) + 1) * 150;
+                _this.game.physics.arcade.accelerateToObject(_this.player, item, grav);
+            }, this);
         };
         return Play;
     })(Phaser.State);
@@ -137,4 +161,23 @@ var PhaserGame;
         return Player;
     })(Phaser.Sprite);
     PhaserGame.Player = Player;
+})(PhaserGame || (PhaserGame = {}));
+var PhaserGame;
+(function (PhaserGame) {
+    var Blackhole = (function (_super) {
+        __extends(Blackhole, _super);
+        function Blackhole(game, x, y, lifespan) {
+            _super.call(this, game, x, y, 'ss_blackhole', 0);
+            this.anchor.setTo(0.5, 0.5);
+            game.add.existing(this);
+            game.physics.enable(this, Phaser.Physics.ARCADE);
+            this.body.immovable = true;
+            this.body.checkCollision = true;
+            this.animations.add('pulse');
+            this.animations.play('pulse', 10, true);
+            this.lifespan = lifespan;
+        }
+        return Blackhole;
+    })(Phaser.Sprite);
+    PhaserGame.Blackhole = Blackhole;
 })(PhaserGame || (PhaserGame = {}));
