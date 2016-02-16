@@ -6,6 +6,8 @@ module PhaserGame{
 			this.load.image('i_logo', 'assets/title.png');
 			this.load.image('i_prompt', 'assets/prompt.png');
 			this.load.image('s_player', 'assets/player_ship.png');
+
+			this.load.image('p_score', 'assets/panel_score.png');
 			this.load.spritesheet('ss_blackhole', 'assets/black_hole.png', 31, 31, 4);
 			this.load.spritesheet('ss_exlife', 'assets/extra_life.png', 31, 31, 4); 
 
