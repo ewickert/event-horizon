@@ -107,8 +107,13 @@ var PhaserGame;
         Play.prototype.create = function () {
             var _this = this;
             this.background = this.add.sprite(0, 0, 'i_background');
-            var panel = this.add.sprite(0, 0, 'p_score');
-            panel.alpha = .8;
+            this.panel = this.add.sprite(0, 0, 'p_score');
+            this.game.physics.arcade.enable(this.panel);
+            this.panel.body.immovable = true;
+            this.panel.body.checkCollision.up = true;
+            this.panel.body.checkCollision.down = true;
+            this.panel.body.checkCollision.right = true;
+            this.panel.alpha = .8;
             this.player = new PhaserGame.Player(this.game, this.game.world.centerX, this.game.world.centerY);
             this.scoreboard = this.game.add.text(10, 10, 'Score: 0', { fontSize: '16px', fill: '#FFFFFF' });
             this.scoreboard.font = "Lucida Console";
@@ -120,6 +125,7 @@ var PhaserGame;
         };
         Play.prototype.update = function () {
             var _this = this;
+            this.game.physics.arcade.collide(this.player, this.panel);
             this.tick++;
             if (this.tick % 150 == 0) {
                 var x = (Math.random() * 1000) % 800;
