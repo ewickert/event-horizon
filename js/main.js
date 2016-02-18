@@ -122,6 +122,9 @@ var PhaserGame;
             this.timer.loop(1000, function () { _this.scoreboard.text = 'Score: ' + Math.round(_this.timer.seconds); }, this);
             this.timer.start();
             this.tick = 0;
+            this.grp_blackhole.add(new PhaserGame.Blackhole(this.game, 790, 590, 10000000000));
+            this.grp_blackhole.add(new PhaserGame.Blackhole(this.game, 10, 590, 100000000000));
+            this.grp_blackhole.add(new PhaserGame.Blackhole(this.game, 790, 10, 100000000000));
         };
         Play.prototype.update = function () {
             var _this = this;

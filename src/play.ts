@@ -28,6 +28,10 @@ module PhaserGame{
 			this.timer.loop(1000, () =>{this.scoreboard.text =  'Score: ' + Math.round(this.timer.seconds)}, this);
 			this.timer.start();
 			this.tick = 0;
+
+			this.grp_blackhole.add(new Blackhole(this.game, 790, 590, 10000000000));
+			this.grp_blackhole.add(new Blackhole(this.game, 10, 590, 100000000000));
+			this.grp_blackhole.add(new Blackhole(this.game, 790, 10, 100000000000));
 		}
 		
 		update(){
