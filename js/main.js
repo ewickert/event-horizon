@@ -80,15 +80,15 @@ var PhaserGame;
         Menu.prototype.init_key = function () {
             this.add.sprite(328, 305, 'txt_ship');
             this.add.sprite(286, 287, 's_player');
-            this.add.sprite(328, 340, 'txt_extra_life');
-            var el = this.add.sprite(286, 331, 'ss_exlife');
-            el.animations.add('pulse');
-            el.animations.play('pulse', 10, true);
+            //this.add.sprite(328, 340, 'txt_extra_life');
+            //var el = this.add.sprite(286, 331, 'ss_exlife');
+            //el.animations.add('pulse');
+            //el.animations.play('pulse', 10, true);
             this.add.sprite(328, 377, 'txt_black_hole');
             var bh = this.add.sprite(286, 367, 'ss_blackhole');
             bh.animations.add('pulse');
             bh.animations.play('pulse', 10, true);
-            this.add.sprite(328, 401, 'txt_meteor');
+            //this.add.sprite(328, 401, 'txt_meteor');
         };
         Menu.prototype.start_game = function () {
             this.game.state.start('Play', true, false);
