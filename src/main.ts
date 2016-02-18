@@ -16,3 +16,8 @@ module PhaserGame{
 window.onload = () => {
 	var game = new PhaserGame.Game();
 }
+window.onkeydown = (event: any) => {
+	if(event.keyCode === 32){
+		event.preventDefault();
+	}
+}

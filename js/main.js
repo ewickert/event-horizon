@@ -24,6 +24,11 @@ var PhaserGame;
 window.onload = function () {
     var game = new PhaserGame.Game();
 };
+window.onkeydown = function (event) {
+    if (event.keyCode === 32) {
+        event.preventDefault();
+    }
+};
 /// <reference path="../typings/phaser.d.ts"/>
 var PhaserGame;
 (function (PhaserGame) {
@@ -65,6 +70,7 @@ var PhaserGame;
             this.logo = this.add.sprite(36, 20, 'i_logo');
             this.play_prompt = this.add.sprite(64, 554, 'i_prompt');
             this.init_key();
+            this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
         };
         Menu.prototype.update = function () {
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
@@ -118,23 +124,26 @@ var PhaserGame;
             if (this.tick % 150 == 0) {
                 var x = (Math.random() * 1000) % 800;
                 var y = (Math.random() * 1000) % 600 + 50;
-                var span = (Math.random() * 10000) + this.tick;
+                var span = Math.round((Math.random() * 10000)) + this.tick;
                 this.grp_blackhole.add(new PhaserGame.Blackhole(this.game, x, y, span));
             }
             var closest = null;
             var m_distance = 100000000;
             this.grp_blackhole.forEach(function (item) {
-                if (item.lifespan == _this.tick)
-                    item.destroy();
-                //var grav = 5000/(this.game.physics.arcade.distanceBetween(item, this.player) + 1) * 150;
-                //this.game.physics.arcade.accelerateToObject(this.player, item, grav);
-                if (_this.game.physics.arcade.distanceBetween(item, _this.player) < m_distance) {
-                    closest = item;
-                    m_distance = _this.game.physics.arcade.distanceBetween(item, _this.player);
+                try {
+                    if (_this.game.physics.arcade.distanceBetween(item, _this.player) < m_distance) {
+                        closest = item;
+                        m_distance = _this.game.physics.arcade.distanceBetween(item, _this.player);
+                    }
+                    _this.game.physics.arcade.collide(item, _this.player, function () {
+                        _this.game.state.start('Menu', true, false);
+                    });
+                    if (item.lifespan <= _this.tick) {
+                        _this.grp_blackhole.remove(item);
+                        item.destroy();
+                    }
                 }
-                _this.game.physics.arcade.collide(item, _this.player, function () {
-                    _this.game.state.start('Menu', true, false);
-                });
+                catch (e) { }
             }, this);
             if (closest != null) {
                 var grav = 5000 / (this.game.physics.arcade.distanceBetween(closest, this.player) + 1) * 150;

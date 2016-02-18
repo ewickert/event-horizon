@@ -1,7 +1,7 @@
 module PhaserGame{
 	export class Blackhole extends Phaser.Sprite{
 
-		lifespan: number;
+		public lifespan: number;
 		constructor(game: Phaser.Game, x: number, y: number, lifespan: number){
 			super(game, x, y, 'ss_blackhole', 0);
 			this.anchor.setTo(0.5, 0.5);

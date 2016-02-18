@@ -29,22 +29,29 @@ module PhaserGame{
 			if(this.tick % 150 == 0){
 				var x = (Math.random() * 1000) % 800;
 				var y = (Math.random() * 1000) % 600 + 50;
-				var span = (Math.random() * 10000) + this.tick;
+				var span = Math.round((Math.random() * 10000)) + this.tick;
 				this.grp_blackhole.add(new Blackhole(this.game, x, y, span));
 			}
 			var closest = null;
 			var m_distance = 100000000;
 			this.grp_blackhole.forEach((item: any) =>{
-					if (item.lifespan == this.tick) item.destroy();
-					//var grav = 5000/(this.game.physics.arcade.distanceBetween(item, this.player) + 1) * 150;
-					//this.game.physics.arcade.accelerateToObject(this.player, item, grav);
-					if(this.game.physics.arcade.distanceBetween(item, this.player) < m_distance){
+				try{		
+				if(this.game.physics.arcade.distanceBetween(item, this.player) < m_distance){
 						closest = item;
 						m_distance = this.game.physics.arcade.distanceBetween(item, this.player);
-					}
-					this.game.physics.arcade.collide(item, this.player, () =>{
+				}
+
+				this.game.physics.arcade.collide(item, this.player, () =>{
 						this.game.state.start('Menu', true, false);
-					});
+				});
+
+
+				if (item.lifespan <= this.tick){ 
+						 this.grp_blackhole.remove(item);
+						 item.destroy();
+					}
+				}catch(e){}
+
 				}, this);
 
 			if(closest != null){

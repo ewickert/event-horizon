@@ -9,6 +9,7 @@ module PhaserGame{
 			this.logo = this.add.sprite(36, 20, 'i_logo');
 			this.play_prompt = this.add.sprite(64, 554, 'i_prompt');
 			this.init_key();
+			this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
 		}
 		update(){
 			if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
